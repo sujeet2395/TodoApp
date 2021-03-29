@@ -1,0 +1,152 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block loginsignupblock %}
+    {% if 'sessionuser_id' in request.session %}
+    <a class="navbar-brand" href="/account/logout/">Logout</a>
+    {% endif %}
+{% endblock %}
+{% block todoshome %}
+<div class="container">
+  <div class="card my-3">
+    <div class="card-header">
+      <div class="row">
+        <div class="col-sm-10" type="button" data-toggle="collapse" data-target="#collapseTasksList"
+          aria-expanded="false" aria-controls="collapseTasksList">
+          <h5>Tasks List</h5>
+        </div>
+        <div class="col-sm-2">
+          <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseTasksListForm"
+            aria-expanded="false" aria-controls="collapseTasksListForm">
+            Add TasksList
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="collapse" id="collapseTasksListForm">
+      <div class="card card-body">
+        <form name="taskslistform" method="post" action="/todos/addtnl/">
+          {% csrf_token %}
+          <label>TasksList Name :</label><input type="text" name="listname" id="listname" /><br>
+          <label>TaskList's Description :</label><input type="text" name="taskslistdesc" id="taskslistdesc" /><br>
+          <label>Task Title :</label><input type="text" name="tasktitle" id="tasktitle" /><br>
+          <label> Task's Description :</label><input type="text" name="taskdesc" id="taskdesc" /><br>
+          <input type="submit" value="Add tasklist" />
+        </form>
+      </div>
+    </div>
+    <div class="collapse show" id="collapseTasksList">
+      {% if taskslists %}
+      {% for taskslist, tasks in taskslists %}
+      <div class="card card-body">
+        <label>
+          {{taskslist}}
+        </label>
+        <div class="card">
+          <div class="card-header">
+            <div class="row">
+              <div class="col-sm-10" type="button" data-toggle="collapse"
+                data-target="#collapseTasks{{ forloop.counter }}" aria-expanded="false" aria-controls="collapseTasks">
+                <h5>Tasks</h5>
+              </div>
+              <div class="col-sm-2">
+                <button class="btn btn-primary" type="button" data-toggle="collapse"
+                  data-target="#collapseTaskForm{{ forloop.counter }}" aria-expanded="false"
+                  aria-controls="collapseTaskForm{{ forloop.counter }}">
+                  Add Task
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="collapse" id="collapseTaskForm{{ forloop.counter }}">
+            <div class="card card-body">
+              <form name="taskform{{ forloop.counter }}" method="post" action="/todos/addtel/">
+                {% csrf_token %}
+                <label> TasksList Id :</label><input type="text" name="taskslistid" id="taskslistid"
+                  value="{{taskslist.id}}" /><br>
+                <label>Task Title :</label><input type="text" name="tasktitle" id="tasktitle" /><br>
+                <label> Task's Description :</label><input type="text" name="taskdesc" id="taskdesc" /><br>
+                <input type="submit" value="Add Task" />
+              </form>
+            </div>
+          </div>
+          <div class="collapse" id="collapseTasks{{ forloop.counter }}">
+            {% for task in tasks %}
+            <div class="card card-body">
+              <label>
+                {{task}}
+              </label>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+      {% else %}
+      <div class="card card-body">
+        <label>
+          No taskslist
+        </label>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+  <div class="card my-3">
+    <div class="card-header" type="button" data-toggle="collapse" data-target="#collapseSharedTasksList"
+      aria-expanded="false" aria-controls="collapseSharedTasksList">
+      <h5>Shared Tasks List</h5>
+    </div>
+    <div class="collapse show" id="collapseSharedTasksList">
+      {% if sharedtaskslists %}
+      {% for sharedtaskslist, sharedtasks in sharedtaskslists %}
+      <div class="card card-body">
+        <label>
+          {{sharedtaskslist}}
+        </label>
+
+        <div class="card card-header" type="button" data-toggle="collapse"
+          data-target="#collapseSharedTasks{{ forloop.counter }}" aria-expanded="false"
+          aria-controls="collapseSharedTasks{{ forloop.counter }}">
+          <h5>Shared Tasks</h5>
+        </div>
+
+        <div class="card">
+          <div class="collapse" id="collapseSharedTasks{{ forloop.counter }}">
+            {% for task in sharedtasks %}
+            <div class="card card-body">
+              <label>
+                {{task}}
+              </label>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+      {% else %}
+      <div class="card card-body">
+        <label>
+          No shared taskslist
+        </label>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+
+  {% if taskslists %}
+  {% for taskslist, tasks in taskslists %}
+  <h5>{{taskslist}}</h5>
+  <h5>{{tasks}}</h5>
+  {% endfor %}
+  {% else %}
+  <h5>No taskslist</h5>
+  {% endif %}
+  {% if sharedtaskslists %}
+  {% for sharedtaskslist, sharedtasks in sharedtaskslists %}
+  <h6>{{sharedtaskslist}}</h6>
+  <h6>{{sharedtasks}}</h6>
+  {% endfor %}
+  {% else %}
+  <h5>No shared taskslist</h5>
+  {% endif %}
+</div>
+{% endblock %}

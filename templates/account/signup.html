@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block todoshome %}
+<script type="javascript">
+
+</script>
+<div class="container">
+    <div class="card my-3">
+        <div class="card-header">
+            <h5>Signup</h5>
+        </div>
+        <div class="card-body">
+            {% if error %}
+            <span>{{error}}</span>
+            {% endif%}
+            <form method="post" action="/account/signup/">
+                {% csrf_token %}
+                <label>Name :</label><input type="text" name="name" id="username"><br>
+                <label>Username :</label><input type="text" name="username" id="username"><br>
+                <label>Email :</label><input type="email" name="email" id="email"><br>
+                <label>Password :</label><input type="password" name="password" id="password"><br>
+                <input type="submit" value="Signup">
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
