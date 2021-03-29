@@ -25,7 +25,7 @@ SECRET_KEY = 'x1v9x%e4xp@ti)rnx-x$t%%vo=8q%_3!89wwz30ro6_twyvw*o'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -75,11 +75,30 @@ WSGI_APPLICATION = 'TodoApp.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
-
-DATABASES = {
-    'default': {
+'''
+'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'letsdaredb',
+        'USER': 'postgres',
+        'PASSWORD':'Sharma@2395',
+        'HOST':'localhost',
+        'PORT':'5432',
+    }
+'''
+'''
+'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
+    }
+'''
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'dolckf42f5rc9',
+        'USER': 'qdsfmrgzwpzbsr',
+        'PASSWORD':'d31af3e676fdfbde956733359d977832e235d1958700496353bc04d46c6e5d90',
+        'HOST':'ec2-18-206-20-102.compute-1.amazonaws.com',
+        'PORT':'5432',
     }
 }
 
