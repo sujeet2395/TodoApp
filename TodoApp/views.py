@@ -5,7 +5,7 @@ from django.shortcuts import redirect, render
 def homeredirect(request):
     if 'sessionuser_id' in request.session:
         return redirect('/todos/',permanent=True)
-    return render(request,'loginsignup.html')
+    return render(request,'login.html')
 def contact_us(request):
     return render(request, 'contact_us.html',{})
 def about_us(request):

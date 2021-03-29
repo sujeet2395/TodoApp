@@ -111,3 +111,92 @@ def addtaskinexistedlist(request):
         
         return redirect('todos:home')
     return redirect('todos:home')
+
+def edittask(request):
+    if 'sessionuser_id' not in request.session:
+        return redirect('account:login')
+    sessionuser = User.objects.get(pk=int(request.session['sessionuser_id']))
+    if request.method=='POST':
+        task=None
+        
+        if request.POST['taskid']!="":
+            #taskslistid=int(request.POST['taskslistid'])
+            task=Task.objects.get(pk=int(request.POST['taskid']))
+            #print(taskslistid)
+            #taskslist=TasksList.objects.get(pk=taskslistid)
+            #newtask.taskslist=taskslist
+            #task.created=datetime.now()
+            #task.status="NEW"
+            #print(newtask)
+        if request.POST['tasktitle']!="":
+            task.title=request.POST['tasktitle']
+        if request.POST['taskstatus']!="":
+            task.status=request.POST['taskstatus']
+        if request.POST['taskdesc']!="":
+            task.descriptions=request.POST['taskdesc']
+        if task!=None and task.taskslist.user.id==sessionuser.id:
+            task.save()
+        else:
+            print('task is not edited.')
+        
+        return redirect('todos:home')
+    return redirect('todos:home')
+        
+
+def editsharedtask(request):
+    if 'sessionuser_id' not in request.session:
+        return redirect('account:login')
+    sessionuser = User.objects.get(pk=int(request.session['sessionuser_id']))
+    if request.method=='POST':
+        task=None
+        
+        if request.POST['taskid']!="":
+            #taskslistid=int(request.POST['taskslistid'])
+            task=Task.objects.get(pk=int(request.POST['taskid']))
+            #print(taskslistid)
+            #taskslist=TasksList.objects.get(pk=taskslistid)
+            #newtask.taskslist=taskslist
+            #task.created=datetime.now()
+            #task.status="NEW"
+            #print(newtask)
+        
+        if request.POST['taskstatus']!="":
+            task.status=request.POST['taskstatus']
+        
+        if task!=None:
+            task.save()
+        else:
+            print('task is not edited.')
+        
+        return redirect('todos:home')
+    return redirect('todos:home')
+
+def sharetasklist(request):
+    if 'sessionuser_id' not in request.session:
+        return redirect('account:login')
+    sessionuser = User.objects.get(pk=int(request.session['sessionuser_id']))
+    if request.method=='POST':
+        taskslist=None
+        sharedtaskslist=SharedTasksList()
+        sharewithuser=None
+        if request.POST['taskslistid']!="":
+            taskslistid=int(request.POST['taskslistid'])
+            taskslist=TasksList.objects.get(pk=taskslistid)
+            #print(taskslistid)
+            #taskslist=TasksList.objects.get(pk=taskslistid)
+            #newtask.taskslist=taskslist
+            #task.created=datetime.now()
+            #task.status="NEW"
+            #print(newtask)
+        
+        if request.POST['userid']!="":
+            userid=int(request.POST['userid'])
+            sharewithuser=User.objects.get(pk=userid)
+        if taskslist!=None and sharewithuser!=None:
+            sharedtaskslist.sharedtaskslist=taskslist
+            sharedtaskslist.withuser=sharewithuser
+            sharedtaskslist.save()
+        else:
+            print('sharing taskslist is not done.')
+        return redirect('todos:home')
+    return redirect('todos:home')

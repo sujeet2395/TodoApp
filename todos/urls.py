@@ -22,4 +22,7 @@ urlpatterns = [
     path('', views.home, name='home'),
     path('addtnl/',views.addtaskinnewlist, name='addtaskinnewlist'),
     path('addtel/',views.addtaskinexistedlist, name='addtaskinexistedlist'),
+    path('edittask/',views.edittask, name='edittask'),
+    path('editsharedtask/',views.editsharedtask, name='editsharedtask'),
+    path('sharetasklist/',views.sharetasklist, name='sharetasklist'),
 ]

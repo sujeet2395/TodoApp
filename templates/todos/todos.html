@@ -38,9 +38,31 @@
       {% if taskslists %}
       {% for taskslist, tasks in taskslists %}
       <div class="card card-body">
-        <label>
-          {{taskslist}}
-        </label>
+        <div class="row">
+          <div class="col-sm-10">
+            <label>
+              {{taskslist}}
+            </label>
+          </div>
+          <div class="col-sm-2">
+            <button class="btn btn-primary" type="button" data-toggle="collapse"
+              data-target="#collapseShareTasksListForm{{ forloop.counter }}" aria-expanded="false"
+              aria-controls="collapseShareTasksListForm{{ forloop.counter }}">
+              Share TaskList
+            </button>
+          </div>
+        </div>
+        <div class="collapse" id="collapseShareTasksListForm{{ forloop.counter }}">
+          <div class="card card-body">
+            <form name="sharetaskslistform{{ forloop.counter }}" method="post" action="/todos/sharetasklist/">
+              {% csrf_token %}
+              <label> TasksList Id :</label><input type="text" name="taskslistid" id="taskslistid"
+                value="{{taskslist.id}}" /><br>
+              <label>User Id:</label><input type="text" name="userid" id="userid" /><br>
+              <input type="submit" value="Share Taskslist" />
+            </form>
+          </div>
+        </div>
         <div class="card">
           <div class="card-header">
             <div class="row">
@@ -72,9 +94,33 @@
           <div class="collapse" id="collapseTasks{{ forloop.counter }}">
             {% for task in tasks %}
             <div class="card card-body">
-              <label>
-                {{task}}
-              </label>
+              
+              <div class="row">
+                <div class="col-sm-10">
+                  <label>
+                    {{task}}
+                  </label>
+                </div>
+                <div class="col-sm-2">
+                  <button class="btn btn-primary" type="button" data-toggle="collapse"
+                    data-target="#collapseEditTaskForm{{ forloop.counter }}" aria-expanded="false"
+                    aria-controls="collapseEditTaskForm{{ forloop.counter }}">
+                    Edit Task
+                  </button>
+                </div>
+              </div>
+              <div class="collapse" id="collapseEditTaskForm{{ forloop.counter }}">
+                <div class="card card-body">
+                  <form name="taskform{{ forloop.counter }}" method="post" action="/todos/edittask/">
+                    {% csrf_token %}
+                    <label> Task Id :</label><input type="text" name="taskid" id="taskid" value="{{task.id}}" /><br>
+                    <label>Task Title :</label><input type="text" name="tasktitle" id="tasktitle" value="{{task.title}}"/><br>
+                    <label> Task's Description :</label><input type="text" name="taskdesc" id="taskdesc" value="{{task.descriptions}}" /><br>
+                    <label> Task's Status :</label><input type="text" name="taskstatus" id="taskstatus" value="{{task.status}}" /><br>
+                    <input type="submit" value="Edit Task" />
+                  </form>
+                </div>
+              </div>
             </div>
             {% endfor %}
           </div>
@@ -113,9 +159,30 @@
           <div class="collapse" id="collapseSharedTasks{{ forloop.counter }}">
             {% for task in sharedtasks %}
             <div class="card card-body">
-              <label>
-                {{task}}
-              </label>
+              <div class="row">
+                <div class="col-sm-10">
+                  <label>
+                    {{task}}
+                  </label>
+                </div>
+                <div class="col-sm-2">
+                  <button class="btn btn-primary" type="button" data-toggle="collapse"
+                    data-target="#collapseEditSharedTaskForm{{ forloop.counter }}" aria-expanded="false"
+                    aria-controls="collapseEditSharedTaskForm{{ forloop.counter }}">
+                    Edit Task
+                  </button>
+                </div>
+              </div>
+              <div class="collapse" id="collapseEditSharedTaskForm{{ forloop.counter }}">
+                <div class="card card-body">
+                  <form name="sharedtaskform{{ forloop.counter }}" method="post" action="/todos/editsharedtask/">
+                    {% csrf_token %}
+                    <label> Task Id :</label><input type="text" name="taskid" id="taskid" value="{{task.id}}" /><br>
+                    <label> Task's Status :</label><input type="text" name="taskstatus" id="taskstatus" value="{{task.status}}" /><br>
+                    <input type="submit" value="Edit Task" />
+                  </form>
+                </div>
+              </div>
             </div>
             {% endfor %}
           </div>
